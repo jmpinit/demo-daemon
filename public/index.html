@@ -11,7 +11,42 @@
 
 		<script src="js/jquery-2.0.3.min.js"></script>
 		<script src="js/bootstrap.min.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
 
+		<!-- communication -->
+		<script>
+			var socket;
+
+			function is_function(functionToCheck) {
+				var getType = {};
+				return functionToCheck && getType.toString.call(functionToCheck) === '[object Function]';
+			}
+
+			function connect() {
+				socket = io.connect(null);
+
+				socket.on('code', function(sourcecode) {
+					console.log("code received");
+					console.log(sourcecode);
+
+					var compiled = eval(sourcecode);
+					console.log("compiled: ", compiled);
+
+					if(is_function(compiled)) {
+						demo.draw = compiled;
+						console.log("code compiled and loaded");
+					}
+				});
+
+				socket.on('connect', function(){ });
+				socket.on('disconnect', function(){ });
+				socket.on('reconnect', function(){ });
+				socket.on('reconnecting', function( nextRetry ){ });
+				socket.on('reconnect_failed', function(){ });
+			}
+		</script>
+
+		<!-- setup -->
 		<script>
 			var demo = {
 				data: {},
@@ -43,11 +78,18 @@
 					resize();
 				});
 
+				// full screen on click
 				canvas.onclick = function() {
 					canvas.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
 					canvas.mozRequestFullScreen();
 					canvas.requestFullscreen(); // Opera
 				}
+
+				// socket.io
+				connect();
+
+				// rendering
+				setInterval(function() { demo.draw(); }, 500);
 			}
 		</script>
 	</body>
