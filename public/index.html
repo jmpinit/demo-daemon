@@ -29,7 +29,7 @@
 					console.log("code received");
 					console.log(sourcecode);
 
-					var compiled = eval(sourcecode);
+					var compiled = eval("'use strict';"+sourcecode);
 					console.log("compiled: ", compiled);
 
 					if(is_function(compiled)) {
