@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>DemDae: API</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<link href="css/demo-daemon.css" rel="stylesheet" media="screen">
+	</head>
+	<body>
+		<div class="container">
+			<div class="page-header">
+				<h1><span class="glyphicon glyphicon-briefcase"></span> Demo-Daemon: API</h1>
+			</div>
+
+			<h2>setup()</h2>
+			<b>description:</b>
+			<p>Called when code is loaded.</p>
+
+			<h2>draw()</h2>
+			<b>description:</b>
+			<p>Called every frame.</p>
+			<b>example:</b>
+			<pre>(function() {
+	var d = 16;
+	for(var y=0; y < canvas.height; y+=d) {
+		for(var x=0; x < canvas.width; x+=d) {
+			var c = (y^x)&255; if(c < 0) c=0; if(c > 255) c=255;
+			ctx.fillStyle = 'rgb('+c+','+c+','+c+');';
+			ctx.fillRect(x, y, d, d);
+		}
+	}
+})</pre>
+
+			<h2>map2d(canvas, fn, dx=1, dy=1)</h2>
+			<i>fn(x, y): [red, green, blue]</i><br>
+			<br>
+
+			<b>description:</b>
+			<p>Sets every canvas pixel to result of fn. Optionally draws with pixel size (dx, dy).</p>
+		</div>
+
+		<script src="js/jquery-2.0.3.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+	</body>
+</html>
