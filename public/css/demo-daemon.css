@@ -1,0 +1,11 @@
+input.warn {
+	border-color: #FF0000;
+	color: #F00;
+	font-weight: 400;
+}
+
+input.success {
+	border-color: #00FF00;
+	color: #484;
+	font-weight: 700;
+}

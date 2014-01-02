@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>DemDae</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<link href="css/demo-daemon.css" rel="stylesheet" media="screen">
+	</head>
+	<body onload="setup();">
+		<canvas id="disp" width="768" height="768"></canvas><br>
+
+		<script src="js/jquery-2.0.3.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+
+		<script>
+			var demo = {
+				data: {},
+				draw: function() {
+					var d = 16;
+					for(var y=0; y < canvas.height; y+=d) {
+						for(var x=0; x < canvas.width; x+=d) {
+							var c = (y^x)&255; if(c < 0) c=0; if(c > 255) c=255;
+							ctx.fillStyle = 'rgb('+c+','+c+','+c+');';
+							ctx.fillRect(x, y, d, d);
+						}
+					}
+				}
+			};
+
+			function setup() {
+				canvas = document.getElementById('disp');
+				ctx = canvas.getContext('2d');
+
+				// resize
+				var resize = function() {
+					canvas.width = $(window).width();
+					canvas.height = $(window).height();
+					demo.draw();
+				};
+
+				resize();
+				$(window).resize(function() {
+					resize();
+				});
+
+				canvas.onclick = function() {
+					canvas.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+					canvas.mozRequestFullScreen();
+					canvas.requestFullscreen(); // Opera
+				}
+			}
+		</script>
+	</body>
+</html>
