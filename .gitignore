@@ -1,3 +1,9 @@
+# vim
+
+*.swp
+
+# node.js
+
 lib-cov
 *.seed
 *.log
