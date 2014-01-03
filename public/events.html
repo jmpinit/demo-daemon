@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>DemDae: API</title>
+		<title>DemDae: Events</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
 		<link href="css/demo-daemon.css" rel="stylesheet" media="screen">
@@ -9,12 +9,14 @@
 	<body>
 		<div class="container">
 			<div class="page-header">
-				<h1><span class="glyphicon glyphicon-briefcase"></span> Demo-Daemon: API</h1>
+				<h1><span class="glyphicon glyphicon-briefcase"></span> Demo-Daemon: Events</h1>
 			</div>
+			
+			<h2>setup</h2>
+			<p>Runs when code is loaded.</p>
 
-			<h2>map2d(canvas, fn, dx=1, dy=1)</h2>
-			<p>Sets every canvas pixel to result of fn. Optionally draws with pixel size (dx, dy).</p>
-			<p>Format of fn: <i>function(x, y): [red, green, blue]</i></p>
+			<h2>draw</h2>
+			<p>Runs every frame.</p>
 		</div>
 
 		<script src="js/jquery-2.0.3.min.js"></script>

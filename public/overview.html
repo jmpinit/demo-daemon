@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>DemDae: Overview</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<link href="css/demo-daemon.css" rel="stylesheet" media="screen">
+	</head>
+	<body>
+		<div class="container">
+			<div class="page-header">
+				<h1><span class="glyphicon glyphicon-briefcase"></span> Demo-Daemon: Overview</h1>
+			</div>
+
+			<p>Demo-Daemon (or DemDae) loads audio-visual JS demos from gists, and reloads code as the gists are updated.</p>
+			
+			<p>To reload a gist, send a GET request to the server's address with the following format:</p>
+
+			<pre>http://localhost:3000/update/&#60;gist id&#62;</pre>
+
+			<p>This can be done by loading the link in a browser or on command line by using curl like so:</p>
+			<pre>curl http://localhost:3000/update/&#60;gist id&#62;</pre>
+
+			<h2>Demo Format</h2>
+
+			<p>Each demo is an object whose properties are events that get triggered by the demo system.</p>
+
+			<b>For example:</b>
+			<pre>{
+	draw: function() {
+		var d = 16;
+		for(var y=0; y < canvas.height; y+=d) {
+			for(var x=0; x < canvas.width; x+=d) {
+				var c = (y^x)&255; if(c < 0) c=0; if(c > 255) c=255;
+				ctx.fillStyle = 'rgb('+c+','+c+','+c+');';
+				ctx.fillRect(x, y, d, d);
+			}
+		}
+	}
+}</pre>
+		</div>
+
+		<script src="js/jquery-2.0.3.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+	</body>
+</html>
