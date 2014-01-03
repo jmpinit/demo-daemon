@@ -11,18 +11,18 @@ app.configure(function(){
 	app.use(express.static(__dirname + '/public'));
 });
 
-app.get("/add/user", function(req, res) {
+/*app.get("/add/user", function(req, res) {
 	gist.get("8225527", function(data) {console.log(data.files.makefile.content);});
 	
 	res.writeHead(200, "OK", {'Content-Type': 'text/html'});
 	console.log("OK");
 
 	res.end();
-});
+});*/
 
 app.get("/update/:id", function(req, res) {
 	var id = req.params.id;
-	console.log("updating gist "+id);
+	console.log("updating gist " + id);
 
 	gist.get(id, function(code) {
 		var sourcecode = null;
@@ -36,10 +36,15 @@ app.get("/update/:id", function(req, res) {
 		}
 	});
 
-	res.writeHead(200, "OK", {'Content-Type': 'text/html'});
-	console.log("OK");
-
-	res.end();
+	if(req.get('User-Agent').indexOf('curl') != -1) {
+		console.log("curl");
+		res.writeHead(200, "OK", {'Content-Type': 'text/html'});
+		res.end();
+	} else {
+		console.log("browser");
+		res.writeHead(200, "OK", {'Content-Type': 'text/html'});
+		res.end('Code updated from gist.');
+	}
 });
 
 /*app.put("/user", function(req, res) {
