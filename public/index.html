@@ -46,6 +46,34 @@
 			}
 		</script>
 
+		<!-- sound -->
+		<script>
+			var demoNoise = null;
+			
+			/*function snd_sync() {
+			}*/
+
+			(function() {
+				var audioContext = new webkitAudioContext();
+
+				var bufferSize = 2 * audioContext.sampleRate;
+				var noiseBuffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+				sound = noiseBuffer.getChannelData(0);
+
+				// construct waveform
+				for(var i = 0; i < bufferSize; i++) {
+					sound[i] = 0;
+				}
+
+				demoNoise = audioContext.createBufferSource();
+				demoNoise.buffer = noiseBuffer;
+				demoNoise.loop = true;
+				demoNoise.start(0);
+
+				demoNoise.connect(audioContext.destination);
+			}());
+		</script>
+
 		<!-- setup -->
 		<script>
 			var demo = {
@@ -83,6 +111,8 @@
 					canvas.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
 					canvas.mozRequestFullScreen();
 					canvas.requestFullscreen(); // Opera
+
+					startSound();
 				}
 
 				// socket.io
