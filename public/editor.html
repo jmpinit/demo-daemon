@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>DemDae: Editor</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<link href="css/demo-daemon.css" rel="stylesheet" media="screen">
+
+		<style type="text/css" media="screen">
+			#editor { 
+				position: relative;
+				height: 512px;
+			}
+
+			#display {
+				border-style: solid;
+				border-width: 2px;
+				float: right;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="page-header">
+				<h1><span class="glyphicon glyphicon-wrench"></span> Demo-Daemon: Editor</h1>
+			</div>
+		</div>
+
+		<div class="btn-group btn-group-justified" style="margin-bottom: 2px;">
+			<a id="update" class="btn btn-default" role="button">Update / Run</a>
+		</div>
+
+		<canvas id="display" width=512 height=512>Canvas not supported</canvas>
+
+		<div id="editor"></div>
+
+		<script src="js/jquery-2.0.3.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/ace-builds/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+
+		<!-- sound -->
+		<script>
+			var demoNoise = null;
+			
+			/*function snd_sync() {
+			}*/
+
+			(function() {
+				var audioContext = new webkitAudioContext();
+
+				var bufferSize = 2 * audioContext.sampleRate;
+				var noiseBuffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+				sound = noiseBuffer.getChannelData(0);
+
+				// construct waveform
+				for(var i = 0; i < bufferSize; i++) {
+					sound[i] = 0;
+				}
+
+				demoNoise = audioContext.createBufferSource();
+				demoNoise.buffer = noiseBuffer;
+				demoNoise.loop = true;
+				demoNoise.start(0);
+
+				demoNoise.connect(audioContext.destination);
+			}());
+		</script>
+
+		<script>
+			var draw = function() {};
+			var canvas = $("#display")[0];
+			var ctx = canvas.getContext('2d');
+			
+			var editor = ace.edit("editor");
+			editor.setTheme("ace/theme/monokai");
+			editor.getSession().setMode("ace/mode/javascript");
+
+			editor.setValue([
+				"var d = 16;",
+				"for(var y=0; y < canvas.height; y+=d) {",
+				"	for(var x=0; x < canvas.width; x+=d) {",
+				"		var c = (y^x)&255; if(c < 0) c=0; if(c > 255) c=255;",
+				"		ctx.fillStyle = 'rgb('+c+','+c+','+c+');';",
+				"		ctx.fillRect(x, y, d, d);",
+				"	}",
+				"}"
+			].join("\n"));
+			
+			$("#update").on("click", function() {
+				draw = eval(editor.getValue());
+			});
+
+			setInterval(function() { draw(); }, 100);
+		</script>
+	</body>
+</html>
